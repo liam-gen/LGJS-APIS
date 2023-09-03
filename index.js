@@ -28,12 +28,12 @@ function humanFileSize(bytes, dp=1) {
   }
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.sendFile(__dirname+"/index.html")
 })
 
 app.get('/docs', (req, res) => {
-    res.sendFile("docs.html")
-  })
+    res.sendFile(__dirname+"/index.html")
+})
 
 /* TOMACLOUD */
 
