@@ -22,7 +22,7 @@ app.get('/api/tomacloud/:id', (req, res) => {
         });
 
         resp.on('end', () => {
-            console.log(data);
+            res.send(data);
         });
 
     }).on("error", (err) => {
