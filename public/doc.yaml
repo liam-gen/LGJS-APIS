@@ -1,0 +1,161 @@
+swagger: '2.0'
+schemes:
+  - https
+host: lgjs-apis.vercel.app/api
+info:
+  title: LGJS APIS
+  version: 1.0.1
+  description: |
+    ## Présentation
+
+    ### Les APIs LGJS permettent (*pour l'instant*) d'obtenir des informations sur des fichiers sur certains clouds comme Google Drive, TomaCloud ou même pCloud.
+    > Elles permettent d'obtenir des liens directs vers les fichiers et d'autres informations.
+    
+  x-logo:
+    url: 'https://liamgenjs.vercel.app/cdn/img/logo.png'
+  contact:
+    name: liamgen.js
+    url: 'https://liamgenjs.vercel.app'
+    x-twitter: liamgenjs
+
+consumes:
+  - application/json
+produces:
+  - application/json
+    
+paths:
+  #pcloud
+  /pcloud/:sharecode:
+    get:
+      tags:
+        - pcloud
+      description: Obtenir des informations sur un fichier de pCloud
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: user_info
+          required: true
+          schema:
+            type: object
+            required:
+              - sharecode
+            properties:
+              sharecode:
+                type: string
+      responses:
+        200:
+          description: Retourne les résultats.
+          schema:
+            type: object
+            properties:
+              name: 
+                type: string
+              direct_url: 
+                type: string
+              id: 
+                type: string
+              size: 
+                type: string
+              human_size: 
+                type: string
+              type: 
+                type: string
+              modified: 
+                type: string
+        404:
+          description: Fichier introuvable
+          schema:
+            $ref: '#/definitions/NotFoundError'
+  #googledrive
+  /googledrive/:fileid:
+    get:
+      tags:
+        - Google Drive
+      description: Obtenir des informations sur un fichier de Google Drive
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: user_info
+          required: true
+          schema:
+            type: object
+            required:
+              - fileid
+            properties:
+              fileid:
+                type: string
+      responses:
+        200:
+          description: Retourne les résultats.
+          schema:
+            type: object
+            properties:
+              name: 
+                type: string
+              id: 
+                type: string
+              email: 
+                type: string
+              download_link: 
+                type: string
+        404:
+          description: Fichier introuvable
+          schema:
+            $ref: '#/definitions/NotFoundError'
+
+  /tomacloud/:fileid:
+    get:
+      tags:
+        - TomaCloud
+      description: Obtenir des informations sur un fichier de TomaCloud
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: user_info
+          required: true
+          schema:
+            type: object
+            required:
+              - fileid
+            properties:
+              fileid:
+                type: string
+      responses:
+        200:
+          description: Retourne les résultats.
+          schema:
+            type: object
+            properties:
+              filename: 
+                type: string
+              direct_url: 
+                type: string
+              id: 
+                type: string
+        404:
+          description: Fichier introuvable
+          schema:
+            $ref: '#/definitions/NotFoundError'
+
+definitions:
+
+  NotFoundError:
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
