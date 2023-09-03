@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/docs', (req, res) => {
-    res.sendFile(__dirname+"/index.html")
+    res.sendFile(__dirname+"/docs.html")
 })
 
 /* TOMACLOUD */
