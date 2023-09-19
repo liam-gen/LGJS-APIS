@@ -39,7 +39,60 @@ app.get('/docs', (req, res) => {
 
 app.get('/api/tomacloud/:id', (req, res) => {
     let id = req.params.id;
-    let base = "https://tomacloud.com/file"
+    let base = "https://boomycloud.com/file"
+
+    const https = require('https');
+
+    https.get(base+"/"+id, (resp) => {
+        let data = '';
+
+        resp.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        resp.on('end', () => {
+            const root = parse(data);
+
+            let result = {};
+
+            if(root.innerHTML.includes("The file you want is not available"))
+            {
+                result = {
+                    "error": "The file you want is not available",
+                    "code": "404"
+                }
+            }
+            else
+            {
+
+                let direct_url = "";
+                root.querySelectorAll('script').forEach(e => {
+                    if(e.innerHTML.includes("jwplayer")){
+                        direct_url = e.innerHTML.match(/\bhttps?:\/\/\S+/gi)[0].replace('"', "").replace("'", "")
+                    }
+                });
+
+                let filemane = root.querySelector(".name_file").innerHTML.replace(/\n/g,"").replace(/\r/g,"").replaceAll(" ","")
+
+                result = {
+                    "filename": filemane,
+                    "direct_url": direct_url,
+                    "id": id
+                }
+                
+            }
+
+            res.json(result);
+        });
+
+    }).on("error", (err) => {
+        console.log("Error: " + err.message);
+    });
+})
+
+app.get('/api/boomycloud/:id', (req, res) => {
+    let id = req.params.id;
+    let base = "https://boomycloud.com/file"
 
     const https = require('https');
 
