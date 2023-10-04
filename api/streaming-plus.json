@@ -1,0 +1,11 @@
+{
+    "blacklisted": {
+        "filmoflix.bar": {
+            "reason": "Fausse inscription. Publicités -18"
+        },
+        "coflix.onl": {
+            "reason": "Fausse inscription. Publicités -18"
+        }
+    },
+    "recommended": ["nozgap.com"]
+}

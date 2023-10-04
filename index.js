@@ -35,6 +35,12 @@ app.get('/docs', (req, res) => {
     res.sendFile(__dirname+"/docs.html")
 })
 
+/* STREAMING PLUS */
+
+app.get('/api/streaming-plus', (req, res) => {
+    res.sendFile(__dirname+"/api/streaming-plus.json")
+})
+
 /* TOMACLOUD */
 
 app.get('/api/tomacloud/:id', (req, res) => {
